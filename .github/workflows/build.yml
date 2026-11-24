@@ -1,0 +1,26 @@
+
+name: Build iPhone IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and package IPA
+        run: bash build.sh
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: MoonlightWeb-IPA
+          path: output/MoonlightWeb.ipa
+          if-no-files-found: error
